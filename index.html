@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>주요 전기차 6종 완벽 비교표 (2026.05 기준)</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --border: #1e2d45;
+    --text: #e8edf5;
+    --text-muted: #7a8fa8;
+    --accent-hyundai: #00c3ff;
+    --accent-kia: #05b959;
+    --accent-tesla: #e31937;
+    --gold: #f5c842;
+    --col1: #1a2a3f;
+    --col2: #1a2a2e;
+    --col3: #1a2e22;
+    --col4: #1e2a1a;
+    --col5: #2a1a1a;
+    --col6: #2e1a1e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+
+  .page-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 32px 20px;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    align-items: flex-end;
+    gap: 24px;
+    margin-bottom: 32px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-left h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 52px;
+    letter-spacing: 2px;
+    background: linear-gradient(135deg, #00c3ff 0%, #05b959 50%, #f5c842 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+  }
+
+  .header-left .subtitle {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-top: 6px;
+    font-weight: 300;
+  }
+
+  .header-badges {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-left: auto;
+    align-self: center;
+  }
+
+  .badge {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 500;
+    border: 1px solid;
+  }
+
+  .badge-blue { border-color: var(--accent-hyundai); color: var(--accent-hyundai); }
+  .badge-green { border-color: var(--accent-kia); color: var(--accent-kia); }
+  .badge-red { border-color: var(--accent-tesla); color: var(--accent-tesla); }
+
+  /* Price hero cards */
+  .price-cards {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    margin-bottom: 24px;
+  }
+
+  .price-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 12px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .price-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+
+  .price-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .pc-hyundai::before { background: var(--accent-hyundai); }
+  .pc-kia1::before { background: var(--accent-kia); }
+  .pc-kia2::before { background: #22d073; }
+  .pc-kia3::before { background: #7bc96f; }
+  .pc-tesla1::before { background: var(--accent-tesla); }
+  .pc-tesla2::before { background: #ff6b6b; }
+
+  .car-num {
+    position: absolute;
+    top: 10px; left: 12px;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 700;
+    color: white;
+  }
+  .pc-hyundai .car-num { background: var(--accent-hyundai); }
+  .pc-kia1 .car-num { background: var(--accent-kia); }
+  .pc-kia2 .car-num { background: #22d073; }
+  .pc-kia3 .car-num { background: #7bc96f; }
+  .pc-tesla1 .car-num { background: var(--accent-tesla); }
+  .pc-tesla2 .car-num { background: #ff6b6b; }
+
+  .car-brand {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .car-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .price-range-label {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-bottom: 2px;
+  }
+
+  .price-main {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--gold);
+    margin-bottom: 2px;
+  }
+
+  .price-sub {
+    font-size: 9px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+
+  .price-after {
+    font-size: 9px;
+    background: rgba(245, 200, 66, 0.1);
+    border: 1px solid rgba(245, 200, 66, 0.3);
+    border-radius: 4px;
+    padding: 2px 6px;
+    color: var(--gold);
+  }
+
+  /* Main table */
+  .table-container {
+    overflow-x: auto;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 1100px;
+  }
+
+  thead tr {
+    background: var(--surface);
+  }
+
+  th {
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: var(--surface);
+  }
+
+  .th-label {
+    padding: 12px 10px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    white-space: nowrap;
+    min-width: 120px;
+    border-right: 1px solid var(--border);
+  }
+
+  .th-car {
+    padding: 14px 12px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .th-car-brand {
+    font-size: 9px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+
+  .th-car-name {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .th-car-tag {
+    font-size: 9px;
+    color: var(--text-muted);
+    font-weight: 400;
+  }
+
+  /* Section headers */
+  .section-row td {
+    padding: 8px 12px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    background: var(--surface);
+    color: var(--text-muted);
+    border-top: 1px solid var(--border);
+  }
+
+  tbody tr {
+    border-bottom: 1px solid rgba(30, 45, 69, 0.5);
+    transition: background 0.15s;
+  }
+
+  tbody tr:hover {
+    background: rgba(255,255,255,0.02);
+  }
+
+  .row-label {
+    padding: 10px 12px;
+    font-size: 11px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    border-right: 1px solid var(--border);
+    font-weight: 500;
+    min-width: 130px;
+  }
+
+  .row-icon {
+    margin-right: 6px;
+    font-size: 12px;
+  }
+
+  td.cell {
+    padding: 10px 10px;
+    text-align: center;
+    font-size: 11px;
+    border-right: 1px solid rgba(30, 45, 69, 0.4);
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+
+  td.cell:last-child { border-right: none; }
+
+  /* Highlights */
+  .best { color: #22d073; font-weight: 700; }
+  .good { color: #7bc96f; }
+  .warn { color: #f5a742; }
+  .na { color: var(--text-muted); font-style: italic; }
+
+  .tag {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 9px;
+    font-weight: 600;
+    margin: 1px;
+  }
+
+  .tag-best { background: rgba(34, 208, 115, 0.15); color: #22d073; border: 1px solid rgba(34, 208, 115, 0.3); }
+  .tag-good { background: rgba(0, 195, 255, 0.1); color: var(--accent-hyundai); border: 1px solid rgba(0, 195, 255, 0.25); }
+  .tag-warn { background: rgba(245, 167, 66, 0.1); color: #f5a742; border: 1px solid rgba(245, 167, 66, 0.25); }
+  .tag-na { background: rgba(122, 143, 168, 0.1); color: var(--text-muted); border: 1px solid rgba(122, 143, 168, 0.2); }
+
+  .stars { color: var(--gold); font-size: 11px; }
+  .star-empty { color: var(--border); }
+
+  /* Price row special style */
+  .price-row td {
+    background: rgba(245, 200, 66, 0.04);
+  }
+
+  .price-cell {
+    font-weight: 700;
+    color: var(--gold);
+    font-size: 12px;
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-note {
+    font-size: 10px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  .legend {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 12px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--text-muted);
+  }
+
+  .recommend-section {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .recommend-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .rec-title {
+    font-size: 10px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .rec-car {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .rec-reason {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.5;
+  }
+
+  @media (max-width: 900px) {
+    .price-cards { grid-template-columns: repeat(3, 1fr); }
+    .recommend-section { grid-template-columns: 1fr; }
+    .header { flex-direction: column; align-items: flex-start; }
+    .header h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="header-left">
+      <h1>주요 전기차 6종<br>완벽 비교표</h1>
+      <div class="subtitle">2026년 5월 기준 · 공식 발표 · 환경부 인증 · 가격 포함</div>
+    </div>
+    <div class="header-badges">
+      <span class="badge badge-blue">현대 1종</span>
+      <span class="badge badge-green">기아 3종</span>
+      <span class="badge badge-red">테슬라 2종</span>
+    </div>
+  </div>
+
+  <!-- Price Hero Cards -->
+  <div class="price-cards">
+    <!-- 1. 아이오닉5 -->
+    <div class="price-card pc-hyundai">
+      <div class="car-num">1</div>
+      <div class="car-brand">현대</div>
+      <div class="car-name">아이오닉 5<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">NE1 롱레인지</span></div>
+      <div class="price-range-label">시작가 (개소세 5%)</div>
+      <div class="price-main">5,064만원~</div>
+      <div class="price-sub">롱레인지 E-Lite 기준</div>
+      <div class="price-after">최고 6,025만원 (N Line 프레스티지)</div>
+    </div>
+    <!-- 2. EV3 -->
+    <div class="price-card pc-kia1">
+      <div class="car-num">2</div>
+      <div class="car-brand">기아</div>
+      <div class="car-name">EV3<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">롱레인지</span></div>
+      <div class="price-range-label">시작가 (개소세 3.5%)</div>
+      <div class="price-main">3,995만원~</div>
+      <div class="price-sub">스탠다드 에어 기준</div>
+      <div class="price-after">롱레인지 최고 4,895만원 (GT라인)</div>
+    </div>
+    <!-- 3. EV4 -->
+    <div class="price-card pc-kia2">
+      <div class="car-num">3</div>
+      <div class="car-brand">기아</div>
+      <div class="car-name">EV4<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">롱레인지 세단</span></div>
+      <div class="price-range-label">시작가 (개소세 3.5%)</div>
+      <div class="price-main">4,042만원~</div>
+      <div class="price-sub">스탠다드 에어 기준</div>
+      <div class="price-after">롱레인지 최고 5,031만원 (GT라인)</div>
+    </div>
+    <!-- 4. EV5 -->
+    <div class="price-card pc-kia3">
+      <div class="car-num">4</div>
+      <div class="car-brand">기아</div>
+      <div class="car-name">EV5<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">롱레인지</span></div>
+      <div class="price-range-label">시작가 (세제혜택 후)</div>
+      <div class="price-main">4,575만원~</div>
+      <div class="price-sub">롱레인지 에어 기준</div>
+      <div class="price-after">최고 5,660만원 (GT)</div>
+    </div>
+    <!-- 5. 모델Y RWD -->
+    <div class="price-card pc-tesla1">
+      <div class="car-num">5</div>
+      <div class="car-brand">테슬라</div>
+      <div class="car-name">모델 Y 주니퍼<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">RWD</span></div>
+      <div class="price-range-label">출시가</div>
+      <div class="price-main">4,999만원</div>
+      <div class="price-sub">단일 트림 (RWD)</div>
+      <div class="price-after">보조금 후 ~4,500만원대 가능</div>
+    </div>
+    <!-- 6. 모델Y AWD -->
+    <div class="price-card pc-tesla2">
+      <div class="car-num">6</div>
+      <div class="car-brand">테슬라</div>
+      <div class="car-name">모델 Y 주니퍼<br><span style="font-size:10px;font-weight:400;color:var(--text-muted)">롱레인지 AWD</span></div>
+      <div class="price-range-label">출시가</div>
+      <div class="price-main">5,999만원</div>
+      <div class="price-sub">롱레인지 AWD</div>
+      <div class="price-after">보조금 50% 적용 (~5,700만원대)</div>
+    </div>
+  </div>
+
+  <!-- Main Comparison Table -->
+  <div class="table-container">
+    <table>
+      <thead>
+        <tr>
+          <th class="th-label">비교 항목</th>
+          <th class="th-car">
+            <div class="th-car-brand" style="color:var(--accent-hyundai)">① 현대</div>
+            <div class="th-car-name">아이오닉 5</div>
+            <div class="th-car-tag">NE1 PE · 롱레인지</div>
+          </th>
+          <th class="th-car">
+            <div class="th-car-brand" style="color:var(--accent-kia)">② 기아</div>
+            <div class="th-car-name">EV3</div>
+            <div class="th-car-tag">롱레인지</div>
+          </th>
+          <th class="th-car">
+            <div class="th-car-brand" style="color:#22d073">③ 기아</div>
+            <div class="th-car-name">EV4</div>
+            <div class="th-car-tag">롱레인지 세단</div>
+          </th>
+          <th class="th-car">
+            <div class="th-car-brand" style="color:#7bc96f">④ 기아</div>
+            <div class="th-car-name">EV5</div>
+            <div class="th-car-tag">롱레인지 · 한국 사양</div>
+          </th>
+          <th class="th-car">
+            <div class="th-car-brand" style="color:var(--accent-tesla)">⑤ 테슬라</div>
+            <div class="th-car-name">모델 Y 주니퍼</div>
+            <div class="th-car-tag">RWD</div>
+          </th>
+          <th class="th-car" style="border-right:none">
+            <div class="th-car-brand" style="color:#ff6b6b">⑥ 테슬라</div>
+            <div class="th-car-name">모델 Y 주니퍼</div>
+            <div class="th-car-tag">롱레인지 AWD</div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- 가격 섹션 -->
+        <tr class="section-row"><td colspan="7">💰 가격 정보</td></tr>
+
+        <tr class="price-row">
+          <td class="row-label"><span class="row-icon">🏷️</span>시작 가격</td>
+          <td class="cell price-cell">5,064만원~<br><span style="font-size:9px;color:var(--text-muted)">(E-Lite 2WD)</span></td>
+          <td class="cell price-cell"><span class="best">3,995만원~</span><br><span style="font-size:9px;color:var(--text-muted)">(스탠다드 에어)</span></td>
+          <td class="cell price-cell">4,042만원~<br><span style="font-size:9px;color:var(--text-muted)">(스탠다드 에어)</span></td>
+          <td class="cell price-cell">4,575만원~<br><span style="font-size:9px;color:var(--text-muted)">(롱레인지 에어)</span></td>
+          <td class="cell price-cell">4,999만원<br><span style="font-size:9px;color:var(--text-muted)">(단일 구성)</span></td>
+          <td class="cell price-cell">5,999만원<br><span style="font-size:9px;color:var(--text-muted)">(롱레인지 AWD)</span></td>
+        </tr>
+
+        <tr class="price-row">
+          <td class="row-label"><span class="row-icon">🔝</span>최고 트림 가격</td>
+          <td class="cell">6,025만원<br><span style="font-size:9px;color:var(--text-muted)">(N Line 프레스티지)</span></td>
+          <td class="cell">4,895만원<br><span style="font-size:9px;color:var(--text-muted)">(롱레인지 GT라인)</span></td>
+          <td class="cell">5,031만원<br><span style="font-size:9px;color:var(--text-muted)">(롱레인지 GT라인)</span></td>
+          <td class="cell">5,660만원<br><span style="font-size:9px;color:var(--text-muted)">(GT)</span></td>
+          <td class="cell">4,999만원<br><span style="font-size:9px;color:var(--text-muted)">(단일)</span></td>
+          <td class="cell">5,999만원<br><span style="font-size:9px;color:var(--text-muted)">(단일)</span></td>
+        </tr>
+
+        <tr class="price-row">
+          <td class="row-label"><span class="row-icon">🎁</span>국고 보조금</td>
+          <td class="cell good">약 200만원대<br><span style="font-size:9px">(롱레인지 기준)</span></td>
+          <td class="cell best">약 300~400만원<br><span style="font-size:9px">(스탠다드 100%)</span></td>
+          <td class="cell best">약 300~400만원<br><span style="font-size:9px">(스탠다드 100%)</span></td>
+          <td class="cell good">약 200~300만원</td>
+          <td class="cell best"><span class="tag tag-best">100% 수혜</span><br>약 170만원<br><span style="font-size:9px">(4,999만원 미만)</span></td>
+          <td class="cell warn">약 50% 수혜<br><span style="font-size:9px">(210만원)</span></td>
+        </tr>
+
+        <!-- 하드웨어 섹션 -->
+        <tr class="section-row"><td colspan="7">⚙️ A. 하드웨어 스펙</td></tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🔋</span>배터리 용량</td>
+          <td class="cell best">84.0 / 77.4 kWh</td>
+          <td class="cell">81.4 / 78.0 kWh</td>
+          <td class="cell">81.4 / 78.1 kWh</td>
+          <td class="cell">81.4 / 78.0 kWh</td>
+          <td class="cell">62 kWh<br><span style="font-size:9px;color:var(--text-muted)">(약 57~58 kWh)</span></td>
+          <td class="cell">81.6 kWh<br><span style="font-size:9px;color:var(--text-muted)">(약 75~76 kWh)</span></td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🛣️</span>주행거리 (환경부)</td>
+          <td class="cell best">약 485 km<br><span style="font-size:9px">(19인치 2WD)</span></td>
+          <td class="cell good">약 501 km<br><span style="font-size:9px;color:var(--text-muted)">(17인치)</span></td>
+          <td class="cell best">약 533 km<br><span style="font-size:9px;color:var(--text-muted)">(17인치 롱레인지)</span></td>
+          <td class="cell good">460 km (2WD)<br>420 km (AWD)</td>
+          <td class="cell">400 km (복합)</td>
+          <td class="cell good">500 km (복합)</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">⚡</span>최고출력 / 토크</td>
+          <td class="cell">168 PS / 350 Nm</td>
+          <td class="cell">204 PS / 283 Nm</td>
+          <td class="cell">204 PS / 283 Nm</td>
+          <td class="cell best">218 PS / 295 Nm</td>
+          <td class="cell">299 PS / 420 Nm</td>
+          <td class="cell best">514 PS / 493 Nm</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🔌</span>충전 플랫폼</td>
+          <td class="cell"><span class="tag tag-best">800V</span> E-GMP</td>
+          <td class="cell"><span class="tag tag-good">400V</span> E-GMP</td>
+          <td class="cell"><span class="tag tag-good">400V</span> E-GMP</td>
+          <td class="cell"><span class="tag tag-good">400V</span> E-GMP</td>
+          <td class="cell"><span class="tag tag-good">400V</span> 테슬라 전용</td>
+          <td class="cell"><span class="tag tag-good">400V</span> 테슬라 전용</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">⏱️</span>10→80% 충전</td>
+          <td class="cell best">약 18분<br><span style="font-size:9px">(350kW 기준)</span></td>
+          <td class="cell">약 31분<br><span style="font-size:9px">(350kW 인프라)</span></td>
+          <td class="cell">약 31분<br><span style="font-size:9px">(350kW 인프라)</span></td>
+          <td class="cell">약 30분 내외</td>
+          <td class="cell good">약 25분<br><span style="font-size:9px">(V3, 170kW)</span></td>
+          <td class="cell good">약 27분<br><span style="font-size:9px">(V3/V4)</span></td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🚗</span>구동방식</td>
+          <td class="cell">2WD / AWD</td>
+          <td class="cell">FWD (전륜)</td>
+          <td class="cell">FWD (전륜)</td>
+          <td class="cell">2WD / AWD</td>
+          <td class="cell">RWD (후륜)</td>
+          <td class="cell best">AWD (사륜)</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">⚖️</span>공차중량 (kg)</td>
+          <td class="cell">2,035~2,185</td>
+          <td class="cell best">1,785~1,930</td>
+          <td class="cell good">1,800~1,950</td>
+          <td class="cell">1,990~2,150</td>
+          <td class="cell">1,928</td>
+          <td class="cell">2,011</td>
+        </tr>
+
+        <!-- 공간 섹션 -->
+        <tr class="section-row"><td colspan="7">📦 B. 공간 &amp; 실사용성</td></tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">📐</span>전장×전폭×전고 (mm)</td>
+          <td class="cell">4,655×1,890×1,605</td>
+          <td class="cell">4,300×1,850×1,560</td>
+          <td class="cell">4,730×1,860×1,480</td>
+          <td class="cell">4,610×1,875×1,675</td>
+          <td class="cell">4,750×1,920×1,624</td>
+          <td class="cell">4,750×1,920×1,624</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🧳</span>트렁크 용량</td>
+          <td class="cell">527 L (기본)<br>1,587 L (풀폴딩)</td>
+          <td class="cell">460 L<br>1,250 L</td>
+          <td class="cell best">490 L (VDA 기준)</td>
+          <td class="cell good">기본 수치<br>965 L (2열 폴딩)</td>
+          <td class="cell">854 L<br>2,041 L</td>
+          <td class="cell best">854 L<br>2,041 L</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🧰</span>프렁크 용량</td>
+          <td class="cell good">57 L (2WD)</td>
+          <td class="cell">25 L</td>
+          <td class="cell na">없음<br><span style="font-size:9px">(전모터 배치)</span></td>
+          <td class="cell">44.4 L</td>
+          <td class="cell best">117 L</td>
+          <td class="cell best">117 L</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🔧</span>차박 / 평탄화</td>
+          <td class="cell best">2열 폴딩 평탄<br>V2L · 넉넉한 수납</td>
+          <td class="cell good">폴딩 평탄<br>차박 가능</td>
+          <td class="cell good">2열 폴딩 평탄<br>재해 효율 우수</td>
+          <td class="cell good">1·2열 플랫<br>차박 최적</td>
+          <td class="cell">2열 폴딩 평탄<br>차박 우수</td>
+          <td class="cell">2열 폴딩 평탄<br>차박 우수</td>
+        </tr>
+
+        <!-- 주행감 섹션 -->
+        <tr class="section-row"><td colspan="7">🎵 C. 주행감성 &amp; NVH</td></tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🛋️</span>승차감</td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div><div style="font-size:9px;color:var(--text-muted)">일부 범퍼 미적용</div></td>
+          <td class="cell"><div class="stars">★★★</div><div class="star-empty">☆☆</div><div style="font-size:9px;color:var(--text-muted)">도심 최적화</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div><div style="font-size:9px;color:var(--text-muted)">단단한 세팅</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div><div style="font-size:9px;color:var(--text-muted)">패밀리 최적</div></td>
+          <td class="cell"><div class="stars">★★★</div><div class="star-empty">☆☆</div><div style="font-size:9px;color:var(--text-muted)">스포티 지향</div></td>
+          <td class="cell best"><div class="stars">★★★★</div><div class="star-empty">☆</div><div style="font-size:9px;color:var(--text-muted)">서스/NVH 개선</div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🔇</span>정숙성</td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+          <td class="cell"><div class="stars">★★★</div><div class="star-empty">☆☆</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+          <td class="cell"><div class="stars">★★★</div><div class="star-empty">☆☆</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🛡️</span>고속 안전감</td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+          <td class="cell"><div class="stars">★★★</div><div class="star-empty">☆☆</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+          <td class="cell"><div class="stars">★★★</div><div class="star-empty">☆☆</div></td>
+          <td class="cell"><div class="stars">★★★★</div><div class="star-empty">☆</div></td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">♻️</span>회생제동</td>
+          <td class="cell best">i-Pedal 우수<br>단계 조절 넘김</td>
+          <td class="cell">3단계 조절<br>자연스러움</td>
+          <td class="cell good">3단계 + i-Pedal<br>(예상)</td>
+          <td class="cell">단계별 조절<br>i-Pedal 지원</td>
+          <td class="cell">2단계<br>테슬라 특유 질감</td>
+          <td class="cell">2~3단계<br>자연스러움</td>
+        </tr>
+
+        <!-- 충전 & 연결 섹션 -->
+        <tr class="section-row"><td colspan="7">⚡ D. 충전 &amp; 연결성</td></tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🔌</span>급속 충전 인프라</td>
+          <td class="cell best">E-pit · E-pit 제휴<br>모든 CCS1 호환</td>
+          <td class="cell good">모든 CCS1</td>
+          <td class="cell good">모든 CCS1</td>
+          <td class="cell good">모든 CCS1</td>
+          <td class="cell">테슬라 수퍼차저<br>(NACS)</td>
+          <td class="cell">테슬라 수퍼차저<br>(NACS)</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🔋</span>V2L (방전)</td>
+          <td class="cell best">실내·외 V2L<br>V2H 지원</td>
+          <td class="cell good">실내·외 V2L</td>
+          <td class="cell good">실내·외 V2L</td>
+          <td class="cell good">실내·외 V2L</td>
+          <td class="cell warn">V2L 없음</td>
+          <td class="cell warn">V2L 없음</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">🌡️</span>히트펌프</td>
+          <td class="cell best">기본 탑재</td>
+          <td class="cell best">기본 탑재</td>
+          <td class="cell good">기본 탑재 (예상)</td>
+          <td class="cell good">기본 탑재 (예상)</td>
+          <td class="cell best">기본 탑재</td>
+          <td class="cell best">기본 탑재</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">📱</span>인포테인먼트</td>
+          <td class="cell">12.3인치 듀얼<br>HUD · OTA · 원격주차</td>
+          <td class="cell">12.3인치 듀얼 OTA<br>카플레이/안드로이드오토</td>
+          <td class="cell">12.3인치 듀얼<br>OTA (예상)</td>
+          <td class="cell">12.3인치 듀얼<br>OTA (예상)</td>
+          <td class="cell best">15.4인치 중앙<br>OTA · 보안 업데이트</td>
+          <td class="cell best">15.4인치 중앙<br>2열 8인치 스크린</td>
+        </tr>
+
+        <!-- 총평 섹션 -->
+        <tr class="section-row"><td colspan="7">⭐ E. 핵심 강점 요약</td></tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">✅</span>핵심 강점</td>
+          <td class="cell" style="text-align:left;padding:10px;">800V 초급속 충전<br>넓은 실내공간<br>승차감·정숙성 균형<br>V2H 지원</td>
+          <td class="cell" style="text-align:left;padding:10px;">효율·실용성 최강<br>도심 주행 최적<br><span class="best">최고 주행거리</span><br>합리적 가격대</td>
+          <td class="cell" style="text-align:left;padding:10px;">운전 재미·디자인<br><span class="best">최장 주행거리</span><br>세단 특유 역동성<br>490L 대용량 트렁크</td>
+          <td class="cell" style="text-align:left;padding:10px;">가족·차박 최적<br><span class="best">넓은 공간</span><br>다원화 탑승 편의<br>합리적 가격</td>
+          <td class="cell" style="text-align:left;padding:10px;">테슬라 생태계 입문<br><span class="best">가성비</span><br>수퍼차저 접근성<br>OTA 업데이트</td>
+          <td class="cell" style="text-align:left;padding:10px;">정숙성·승차감 개선<br><span class="best">AWD 성능</span><br>장거리 최적<br>2열 스크린</td>
+        </tr>
+
+        <tr>
+          <td class="row-label"><span class="row-icon">👤</span>추천 사용자</td>
+          <td class="cell" style="text-align:left;padding:10px;font-size:10px;color:var(--text-muted)">장거리 운전·넓은 공간<br>선호·800V 충전 중시</td>
+          <td class="cell" style="text-align:left;padding:10px;font-size:10px;color:var(--text-muted)">1~2인·소가족<br>도심 경제적 운용</td>
+          <td class="cell" style="text-align:left;padding:10px;font-size:10px;color:var(--text-muted)">운전 재미 중시<br>세단 스타일·효율</td>
+          <td class="cell" style="text-align:left;padding:10px;font-size:10px;color:var(--text-muted)">가족 단위·차박<br>캠핑·넓은 공간 필요</td>
+          <td class="cell" style="text-align:left;padding:10px;font-size:10px;color:var(--text-muted)">테슬라 입문·가성비<br>심플함 선호</td>
+          <td class="cell" style="text-align:left;padding:10px;font-size:10px;color:var(--text-muted)">장거리·정숙성<br>테슬라 업그레이드</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Recommend Cards -->
+  <div class="recommend-section">
+    <div class="recommend-card" style="border-color:var(--accent-kia)">
+      <div class="rec-title">💰 가격 대비 최고</div>
+      <div class="rec-car" style="color:var(--accent-kia)">기아 EV3 롱레인지</div>
+      <div class="rec-reason">3,995만원~으로 6종 중 가장 저렴. 국고 보조금 100% 수혜 가능. 주행거리 최대 501km로 최장. 합리적 예산에 최고의 실용성을 원하는 분께 강추.</div>
+    </div>
+    <div class="recommend-card" style="border-color:var(--accent-hyundai)">
+      <div class="rec-title">⚡ 기술 최고 / 충전 최강</div>
+      <div class="rec-car" style="color:var(--accent-hyundai)">현대 아이오닉 5 롱레인지</div>
+      <div class="rec-reason">국산차 유일 800V 초급속 충전(18분 완충). V2H 지원으로 정전 시 가정용 전력 공급. 넓은 실내와 우수한 정숙성. 기술 최우선 구매자에게 적합.</div>
+    </div>
+    <div class="recommend-card" style="border-color:var(--accent-tesla)">
+      <div class="rec-title">🏎️ 성능·정숙성 최고</div>
+      <div class="rec-car" style="color:var(--accent-tesla)">테슬라 모델 Y 주니퍼 AWD</div>
+      <div class="rec-reason">514PS 파워풀한 AWD, 주니퍼 업데이트로 승차감·NVH 대폭 개선, 2열 8인치 스크린, 장거리 500km. 성능과 정숙성을 동시에 원한다면 최적.</div>
+    </div>
+  </div>
+
+  <!-- Footer notes -->
+  <div class="footer">
+    <div class="footer-note">
+      <strong style="color:var(--text)">📌 가격 기준</strong><br>
+      • 아이오닉5: 2025년형 개소세 5% 기준 (롱레인지 E-Lite 2WD 5,064만원 ~)<br>
+      • EV3·EV4: 2026년형 개소세 3.5% 기준 / EV5: 세제혜택 반영 후 기준<br>
+      • 테슬라 모델Y 주니퍼: 2026년 1월 기준 (RWD 4,999만원 인하 확정)<br>
+      • 보조금은 지자체별 상이 / 정확한 금액은 환경부 무공해차 통합누리집 확인
+    </div>
+    <div class="footer-note">
+      <strong style="color:var(--text)">⚠️ 유의 사항</strong><br>
+      • 주행거리는 2026년 5월 국내 환경부 인증 기준 (복합 기준)<br>
+      • 충전 시간은 350kW 인프라 사용 가정, 배터리 온도·환경에 따라 달라짐<br>
+      • EV4 일부 항목은 출시 전 예상치 포함<br>
+      • 자료 출처: 각 제조사 공식 홈페이지, 환경부 전기차 통합플랫폼, 언론보도
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
