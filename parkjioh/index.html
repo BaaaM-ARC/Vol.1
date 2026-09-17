@@ -445,6 +445,21 @@ section{position:relative;padding-block:clamp(84px,11vw,160px)}
 .btn-gold{background:var(--gold);border-color:var(--gold);color:var(--ink);font-weight:400}
 .btn-gold:hover{background:#d8bd92;border-color:#d8bd92;color:var(--ink)}
 
+.qr-live{margin-top:20px;border:1px solid var(--line);border-radius:3px;
+  padding:clamp(16px,2.4vw,24px);display:flex;flex-wrap:wrap;gap:clamp(16px,2.6vw,26px);align-items:center}
+.qr-live .qimg{flex:none;width:clamp(128px,17vw,164px);aspect-ratio:1;background:#fff;
+  border-radius:3px;padding:9px;display:grid;place-items:center}
+.qr-live .qimg svg{width:100%;height:100%;display:block}
+.qr-live .qt{flex:1;min-width:190px}
+.qr-live .qt .k{font-family:var(--serif);font-size:.6rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold)}
+.qr-live .qt .v{font-family:var(--kserif);font-size:1.05rem;font-weight:300;margin-top:.4rem}
+.qr-live .qt .s{font-size:.76rem;color:var(--paper-faint);margin-top:.45rem;line-height:1.75}
+.qr-live .qurl{margin-top:.7rem;font-size:.7rem;color:var(--paper-dim);word-break:break-all;
+  border-top:1px solid var(--line-soft);padding-top:.6rem;letter-spacing:.01em}
+.qr-live .qbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:.9rem}
+.qr-live .qbtns .btn{padding:.56rem 1rem;font-size:.72rem}
+@media(max-width:520px){.qr-live{flex-direction:column;align-items:flex-start}}
+
 .qr-box{display:flex;align-items:center;gap:clamp(14px,2.4vw,22px);margin-top:20px;
   border:1px solid var(--line);border-radius:3px;padding:clamp(13px,2vw,18px)}
 .qr-box img{width:clamp(74px,11vw,94px);height:auto;background:#fff;padding:6px;border-radius:2px;flex:none}
@@ -690,6 +705,21 @@ section{position:relative;padding-block:clamp(84px,11vw,160px)}
           </button>
         </div>
 
+        <div class="qr-live">
+          <div class="qimg" id="qrLanding" aria-label="이 페이지 주소의 QR 코드"></div>
+          <div class="qt">
+            <div class="k">Landing QR</div>
+            <div class="v">이 페이지를 바로 여는 QR</div>
+            <div class="s">명함·포스터에 넣어 두면, 스캔한 방문은 관리자 페이지에서 <em>QR 유입</em>으로 따로 집계됩니다.</div>
+            <div class="qurl" id="qrUrl"></div>
+            <div class="qbtns">
+              <button class="btn" id="qrPng">PNG 저장</button>
+              <button class="btn" id="qrSvg">SVG 저장</button>
+              <button class="btn" id="qrCopy">주소 복사</button>
+            </div>
+          </div>
+        </div>
+
         <div class="qr-box">
           <img src="assets/qr-naver.png" alt="네이버 인물정보 QR 코드" loading="lazy">
           <div class="t">
@@ -716,7 +746,7 @@ section{position:relative;padding-block:clamp(84px,11vw,160px)}
     </div>
     <div class="foot-bot">
       <span>© 2026 박지오 (Ji-oh Park). All rights reserved.</span>
-      <span>작품 스틸의 저작권은 각 제작사에 있습니다.</span>
+      <span>작품 스틸의 저작권은 각 제작사에 있습니다. <a href="admin.html" rel="nofollow">관리자</a></span>
     </div>
   </div>
 </footer>
@@ -755,6 +785,9 @@ section{position:relative;padding-block:clamp(84px,11vw,160px)}
 }
 </script>
 
+<script src="assets/js/qr.js"></script>
+<script src="assets/js/config.js"></script>
+<script src="assets/js/analytics.js"></script>
 <script>
 (() => {
   'use strict';
@@ -968,6 +1001,55 @@ section{position:relative;padding-block:clamp(84px,11vw,160px)}
     e.preventDefault();
     try { await navigator.clipboard.writeText(v); toast(`<b>${v}</b> 복사됨`); } catch {}
   }));
+
+  /* ───────── landing QR ─────────
+     Encoded from the live URL, so it stays correct on any domain. */
+  try { PJA.track(); } catch (e) { /* logging must never break the page */ }
+
+  const qrUrl = (() => {
+    const u = new URL(location.href);
+    u.hash = '';
+    u.searchParams.set('src', 'qr');
+    return u.toString();
+  })();
+
+  let qrCode = null;
+  try {
+    qrCode = QR.encode(qrUrl, { level: 'M' });
+    $('#qrLanding').innerHTML = QR.toSVG(qrCode, {
+      quiet: 2, dark: '#08080a', light: '#ffffff', label: '박지오 프로필 페이지 QR 코드'
+    });
+    $('#qrUrl').textContent = qrUrl;
+  } catch (e) {
+    $('#qrLanding').textContent = 'QR 생성 실패';
+  }
+
+  $('#qrPng').addEventListener('click', () => {
+    if (!qrCode) return;
+    const cv = QR.toCanvas(qrCode, { scale: 16, quiet: 4, dark: '#000000', light: '#ffffff' });
+    cv.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = Object.assign(document.createElement('a'), { href: url, download: '박지오_QR.png' });
+      document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      toast('QR 이미지를 <b>내려받았습니다</b>');
+    }, 'image/png');
+  });
+
+  $('#qrSvg').addEventListener('click', () => {
+    if (!qrCode) return;
+    const svg = QR.toSVG(qrCode, { quiet: 4, dark: '#000000', light: '#ffffff' });
+    const url = URL.createObjectURL(new Blob([svg], { type: 'image/svg+xml' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: '박지오_QR.svg' });
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    toast('인쇄용 SVG를 <b>내려받았습니다</b>');
+  });
+
+  $('#qrCopy').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(qrUrl); toast('QR 주소를 <b>복사했습니다</b>'); }
+    catch (e) { toast('복사할 수 없습니다'); }
+  });
 
   /* ───────── reveal + nav ───────── */
   const io = new IntersectionObserver((es, o) => {
